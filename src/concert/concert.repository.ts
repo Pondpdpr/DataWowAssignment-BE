@@ -15,4 +15,16 @@ export class ConcertRepository extends Repository<Concert> {
     await this.save(concert);
     return concert;
   }
+
+  async findAll(): Promise<Concert[]> {
+    return this.find();
+  }
+
+  async findById(id: string): Promise<Concert> {
+    return this.findOneBy({ id });
+  }
+
+  async deleteById(id: string): Promise<void> {
+    await this.delete(id);
+  }
 }
