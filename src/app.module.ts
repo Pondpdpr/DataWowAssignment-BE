@@ -4,7 +4,12 @@ import 'dotenv/config';
 import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AuthModule } from './modules/auth/auth.module';
 import { ConcertModule } from './modules/concert/concert.module';
+import { SessionModule } from './modules/session/session.module';
+import { UserModule } from './modules/user/user.module';
+
+const ENV = process.env.NODE_ENV;
 
 @Module({
   imports: [
@@ -24,6 +29,9 @@ import { ConcertModule } from './modules/concert/concert.module';
       }),
     }),
     ConcertModule,
+    AuthModule,
+    UserModule,
+    SessionModule,
   ],
   controllers: [AppController],
   providers: [AppService],

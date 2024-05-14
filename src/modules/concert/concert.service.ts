@@ -17,13 +17,11 @@ export class ConcertService {
 
   async createConcert(createConcertDto: CreateConcertDto): Promise<Concert> {
     try {
-      console.log(createConcertDto);
       const concert =
         await this.concertRepository.createConcert(createConcertDto);
 
       return concert;
     } catch (error) {
-      console.log(error);
       this.logger.log(
         `ConcertService:createConcert: ${JSON.stringify(error.message)}`,
       );
