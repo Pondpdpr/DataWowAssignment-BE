@@ -17,7 +17,18 @@ export class ConcertRepository extends Repository<Concert> {
   }
 
   async findAll(): Promise<Concert[]> {
-    return this.find();
+    const result = await this.createQueryBuilder('c')
+      .groupBy('c.id')
+      .leftJoinAndSelect('c.reservations', 'r')
+      .select([
+        'c.id AS id',
+        'c.name AS name',
+        'c.limit AS limit',
+        'c.description AS description',
+      ])
+      .addSelect('Count(r.id)', 'reserved')
+      .getRawMany();
+    return result;
   }
 
   async findById(id: string): Promise<Concert> {
