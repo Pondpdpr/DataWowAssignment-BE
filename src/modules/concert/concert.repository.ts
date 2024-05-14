@@ -25,6 +25,6 @@ export class ConcertRepository extends Repository<Concert> {
   }
 
   async deleteById(id: string): Promise<void> {
-    await this.delete(id);
+    await this.softDelete(id);
   }
 }

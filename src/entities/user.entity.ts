@@ -19,7 +19,10 @@ export class User {
   @Column({ type: 'varchar', unique: true })
   email: string;
 
-  @OneToMany(() => Reservation, (reservation) => reservation.user)
+  @OneToMany(() => Reservation, (reservation) => reservation.user, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   reservations: Reservation[];
 
   @Column({
