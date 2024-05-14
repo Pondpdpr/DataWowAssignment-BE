@@ -22,6 +22,10 @@ export class ReservationRepository extends Repository<Reservation> {
     return reservation;
   }
 
+  async findReservedByUserId(userId: string): Promise<Reservation[]> {
+    return this.find({ where: { userId } });
+  }
+
   async findAll(): Promise<Reservation[]> {
     return this.find();
   }

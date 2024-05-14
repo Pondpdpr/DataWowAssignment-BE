@@ -36,4 +36,9 @@ export class ReservationController {
   async getReservationLog(): Promise<ReservationLog[]> {
     return this.ReservationService.getAllReservationLog();
   }
+
+  @Get()
+  async getReserved(@Req() req: Request): Promise<Reservation[]> {
+    return this.ReservationService.getAllReservedByUser((req.user as any).id);
+  }
 }

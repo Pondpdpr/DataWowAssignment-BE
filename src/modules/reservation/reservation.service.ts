@@ -96,4 +96,18 @@ export class ReservationService {
       throw new BadRequestException(error.message);
     }
   }
+
+  async getAllReservedByUser(userId: string): Promise<Reservation[]> {
+    try {
+      const reservations =
+        await this.reservationRepository.findReservedByUserId(userId);
+
+      return reservations;
+    } catch (error) {
+      this.logger.log(
+        `ReservationService:getAllReservedBtUser: ${JSON.stringify(error.message)}`,
+      );
+      throw new BadRequestException(error.message);
+    }
+  }
 }
