@@ -1,15 +1,12 @@
 import {
   Body,
   Controller,
-  Get,
   HttpCode,
   HttpStatus,
   Post,
-  Req,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { Request } from 'express';
 import { CreateUserDto } from '../user/user.dto';
 import { LoginDto } from './auth.dto';
 import { AuthService } from './auth.service';
@@ -30,17 +27,5 @@ export class AuthController {
   @Post('login')
   async logIn(@Body() loginDto: LoginDto): Promise<any> {
     return this.authService.login(loginDto);
-  }
-
-  // @Get('logout')
-  // logOut(@Req() request: Request): any {
-  //   return this.authService.logOut(request);
-  // }
-
-  @UseGuards(AuthGuard('jwt'))
-  @Get('is-logged-in')
-  isLoggedIn(@Req() request: Request): boolean {
-    console.log(request.user);
-    return Boolean(request.user);
   }
 }
