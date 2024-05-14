@@ -1,4 +1,10 @@
-import { Injectable, Logger } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  Logger,
+} from '@nestjs/common';
 import { Concert } from 'src/entities/concert.entity';
 import { CreateConcertDto } from './concert.dto';
 import { ConcertRepository } from './concert.repository';
@@ -12,22 +18,31 @@ export class ConcertService {
   async createConcert(createConcertDto: CreateConcertDto): Promise<Concert> {
     try {
       console.log(createConcertDto);
-      const insertResult =
-        await this.concertRepository.insert(createConcertDto);
+      const concert =
+        await this.concertRepository.createConcert(createConcertDto);
 
-      console.log(insertResult);
-      if (insertResult.generatedMaps.length == 0) {
-        throw new Error(`ConcertService.insertOne: ${insertResult.raw}`);
-      }
-
-      return this.concertRepository.findOneBy({
-        id: insertResult.identifiers[0].id,
-      });
+      return concert;
     } catch (error) {
       console.log(error);
       this.logger.log(
         `ConcertService:createConcert: ${JSON.stringify(error.message)}`,
       );
+    }
+  }
+
+  async deleteConcert(concertId: string): Promise<Concert> {
+    try {
+      const drug = await this.concertRepository.findById(concertId);
+      if (!drug) {
+        throw new HttpException('Concert not exists', HttpStatus.BAD_REQUEST);
+      }
+      await this.concertRepository.deleteById(concertId);
+      return drug;
+    } catch (error) {
+      this.logger.log(
+        `BottleService:deleteBottle: ${JSON.stringify(error.message)}`,
+      );
+      throw new BadRequestException(error.message);
     }
   }
 }
