@@ -14,6 +14,9 @@ export class User {
   name: string;
 
   @Column({ type: 'varchar' })
+  password: string;
+
+  @Column({ type: 'varchar' })
   email: string;
 
   @OneToMany(() => Reservation, (reservation) => reservation.user)
