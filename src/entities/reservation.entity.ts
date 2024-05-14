@@ -1,4 +1,5 @@
 import {
+  DeleteDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -27,4 +28,7 @@ export class Reservation {
     (reservationLog) => reservationLog.reservation,
   )
   reservationLogs: ReservationLog[];
+
+  @DeleteDateColumn({ nullable: true })
+  deletedAt?: Date;
 }

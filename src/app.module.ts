@@ -6,6 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
 import { ConcertModule } from './modules/concert/concert.module';
+import { ReserveModule } from './modules/reservation/reservation.module';
 import { SessionModule } from './modules/session/session.module';
 import { UserModule } from './modules/user/user.module';
 
@@ -32,6 +33,7 @@ const ENV = process.env.NODE_ENV;
     AuthModule,
     UserModule,
     SessionModule,
+    ReserveModule,
   ],
   controllers: [AppController],
   providers: [AppService],
