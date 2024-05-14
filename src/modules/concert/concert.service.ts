@@ -15,6 +15,18 @@ export class ConcertService {
 
   constructor(private readonly concertRepository: ConcertRepository) {}
 
+  async getAllConcert(): Promise<Concert[]> {
+    try {
+      const concert = await this.concertRepository.findAll();
+
+      return concert;
+    } catch (error) {
+      this.logger.log(
+        `ConcertService:createConcert: ${JSON.stringify(error.message)}`,
+      );
+    }
+  }
+
   async createConcert(createConcertDto: CreateConcertDto): Promise<Concert> {
     try {
       const concert =
