@@ -2,19 +2,19 @@ import { Controller, Get, Logger, Param, Post, Req } from '@nestjs/common';
 import { Request } from 'express';
 import { Reservation } from 'src/entities/reservation.entity';
 import { ReservationLog } from 'src/entities/reservationLog.entity';
-import { ReserveService } from './reservation.service';
+import { ReservationService } from './reservation.service';
 
-@Controller('reserve')
-export class ReserveController {
-  private logger = new Logger(ReserveController.name);
-  constructor(private readonly reserveService: ReserveService) {}
+@Controller('reservation')
+export class ReservationController {
+  private logger = new Logger(ReservationController.name);
+  constructor(private readonly ReservationService: ReservationService) {}
 
   @Post('/:concertId')
   async createReservation(
     @Param() params: any,
     @Req() request: Request,
   ): Promise<Reservation> {
-    return this.reserveService.createReservation({
+    return this.ReservationService.createReservation({
       user: (request.user as any).id,
       concert: params.concertId,
     });
@@ -25,17 +25,15 @@ export class ReserveController {
     @Param() params: any,
     @Req() request: Request,
   ): Promise<Reservation> {
-    return this.reserveService.cancelReservation({
+    console.log('test');
+    return this.ReservationService.cancelReservation({
       user: (request.user as any).id,
       reservation: params.reservationId,
     });
   }
 
   @Get('/log')
-  async getReservationLog(
-    @Param() params: any,
-    @Req() request: Request,
-  ): Promise<ReservationLog[]> {
-    return this.reserveService.getAllReservationLog();
+  async getReservationLog(): Promise<ReservationLog[]> {
+    return this.ReservationService.getAllReservationLog();
   }
 }

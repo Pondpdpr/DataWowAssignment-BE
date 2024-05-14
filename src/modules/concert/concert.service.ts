@@ -30,12 +30,12 @@ export class ConcertService {
 
   async deleteConcert(concertId: string): Promise<Concert> {
     try {
-      const drug = await this.concertRepository.findById(concertId);
-      if (!drug) {
+      const concert = await this.concertRepository.findById(concertId);
+      if (!concert) {
         throw new HttpException('Concert not exists', HttpStatus.BAD_REQUEST);
       }
       await this.concertRepository.deleteById(concertId);
-      return drug;
+      return concert;
     } catch (error) {
       this.logger.log(
         `BottleService:deleteBottle: ${JSON.stringify(error.message)}`,

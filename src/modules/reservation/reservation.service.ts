@@ -1,13 +1,19 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  Logger,
+} from '@nestjs/common';
 import { Reservation } from 'src/entities/reservation.entity';
 import { Action, ReservationLog } from 'src/entities/reservationLog.entity';
 import { CancelReservationDto, CreateReservationDto } from './reservation.dto';
 import { ReservationRepository } from './reservation.repostory';
-import { ReservationLogRepository } from './reserveLog.repository';
+import { ReservationLogRepository } from './reservationLog.repository';
 
 @Injectable()
-export class ReserveService {
-  private logger = new Logger(ReserveService.name);
+export class ReservationService {
+  private logger = new Logger(ReservationService.name);
 
   constructor(
     private readonly reservationRepository: ReservationRepository,
@@ -43,6 +49,12 @@ export class ReserveService {
       const reservation = await this.reservationRepository.findById(
         cancelReservationDto.reservation,
       );
+      if (!reservation) {
+        throw new HttpException(
+          'Reservation not exists',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
       await this.reservationRepository.deleteById(reservation.id);
       await this.reservationLogRepository.createReservationLog({
         user: cancelReservationDto.user,
