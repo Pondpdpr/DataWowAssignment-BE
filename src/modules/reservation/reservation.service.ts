@@ -24,6 +24,18 @@ export class ReservationService {
     createReservationDto: CreateReservationDto,
   ): Promise<Reservation> {
     try {
+      const existingReservation = await this.reservationRepository.findOneBy({
+        userId: createReservationDto.user,
+        concertId: createReservationDto.concert,
+      });
+
+      if (existingReservation) {
+        throw new HttpException(
+          'Reservation already exists',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
       const reservation =
         await this.reservationRepository.createReservation(
           createReservationDto,
@@ -37,8 +49,9 @@ export class ReservationService {
       return reservation;
     } catch (error) {
       this.logger.log(
-        `ConcertService:createConcert: ${JSON.stringify(error.message)}`,
+        `ReservationService:createReservation: ${JSON.stringify(error.message)}`,
       );
+      throw new BadRequestException(error.message);
     }
   }
 
@@ -49,7 +62,7 @@ export class ReservationService {
       const reservation = await this.reservationRepository.findById(
         cancelReservationDto.reservation,
       );
-      if (!reservation) {
+      if (!cancelReservationDto.reservation || !reservation) {
         throw new HttpException(
           'Reservation not exists',
           HttpStatus.BAD_REQUEST,
@@ -65,7 +78,7 @@ export class ReservationService {
       return reservation;
     } catch (error) {
       this.logger.log(
-        `BottleService:deleteBottle: ${JSON.stringify(error.message)}`,
+        `ReservationService:cancelReservation: ${JSON.stringify(error.message)}`,
       );
       throw new BadRequestException(error.message);
     }
@@ -78,7 +91,7 @@ export class ReservationService {
       return reservationLogs;
     } catch (error) {
       this.logger.log(
-        `BottleService:deleteBottle: ${JSON.stringify(error.message)}`,
+        `ReservationService:getAllReservationLog: ${JSON.stringify(error.message)}`,
       );
       throw new BadRequestException(error.message);
     }
