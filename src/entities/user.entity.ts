@@ -16,7 +16,7 @@ export class User {
   @Column({ type: 'varchar' })
   password: string;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', unique: true })
   email: string;
 
   @OneToMany(() => Reservation, (reservation) => reservation.user)
@@ -25,6 +25,7 @@ export class User {
   @Column({
     type: 'enum',
     enum: UserRole,
+    default: UserRole.USER,
   })
   role: UserRole;
 }
