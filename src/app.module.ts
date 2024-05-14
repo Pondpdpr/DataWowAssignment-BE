@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import 'dotenv/config';
 import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
+import { JwtGuard } from './modules/auth/jwt.guard';
 import { ConcertModule } from './modules/concert/concert.module';
 import { ReservationModule } from './modules/reservation/reservation.module';
-import { SessionModule } from './modules/session/session.module';
 import { UserModule } from './modules/user/user.module';
 
 const ENV = process.env.NODE_ENV;
@@ -32,10 +33,15 @@ const ENV = process.env.NODE_ENV;
     ConcertModule,
     AuthModule,
     UserModule,
-    SessionModule,
     ReservationModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: JwtGuard,
+    },
+  ],
 })
 export class AppModule {}

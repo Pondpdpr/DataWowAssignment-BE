@@ -19,7 +19,6 @@ export class UserRepository extends Repository<User> {
 
   async findOneForSignIn(email: string): Promise<User | null> {
     return this.findOne({
-      select: ['email', 'password'],
       where: {
         email,
       },

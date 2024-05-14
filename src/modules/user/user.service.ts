@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { User } from 'src/entities/user.entity';
-import { CreateUserDto, CredentialDto } from './user.dto';
+import { CreateUserDto } from './user.dto';
 import { UserRepository } from './user.repository';
 
 @Injectable()
@@ -53,7 +53,7 @@ export class UserService {
     }
   }
 
-  async findOneForSignIn(email: string): Promise<CredentialDto> {
+  async findOneForSignIn(email: string): Promise<User> {
     try {
       return this.userRepository.findOneForSignIn(email);
     } catch (error) {
