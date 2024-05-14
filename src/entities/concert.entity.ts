@@ -9,14 +9,11 @@ export class Concert {
   @Column({ type: 'varchar' })
   name: string;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', nullable: true })
   description: string;
 
   @Column({ type: 'int' })
   limit: number;
-
-  @Column({ type: 'int', default: 0 })
-  reserved: number;
 
   @OneToMany(() => Reservation, (reservation) => reservation.concert)
   reservations: Reservation[];

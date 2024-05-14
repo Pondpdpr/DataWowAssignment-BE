@@ -1,4 +1,5 @@
 import {
+  Column,
   DeleteDateColumn,
   Entity,
   JoinColumn,
@@ -15,9 +16,15 @@ export class Reservation {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column({ type: 'varchar', name: 'user_id' })
+  userId: string;
+
   @ManyToOne(() => User, (user) => user.reservations)
   @JoinColumn({ name: 'user_id' })
   user: User;
+
+  @Column({ type: 'varchar', name: 'concert_id' })
+  concertId: string;
 
   @ManyToOne(() => Concert, (concert) => concert.reservations)
   @JoinColumn({ name: 'concert_id' })
