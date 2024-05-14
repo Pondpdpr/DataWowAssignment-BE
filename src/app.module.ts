@@ -4,7 +4,7 @@ import 'dotenv/config';
 import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConcertModule } from './concert/concert.module';
+import { ConcertModule } from './modules/concert/concert.module';
 
 @Module({
   imports: [
