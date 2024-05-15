@@ -36,9 +36,9 @@ export class ConcertRepository extends Repository<Concert> {
       .withDeleted()
       .leftJoin('c.reservations', 'r')
       .select([
-        'SUM(c.limit) AS seats',
-        'COUNT(CASE WHEN r.deletedAt IS NOT NULL THEN r.id END) AS reserved',
-        'COUNT(CASE WHEN r.deletedAt IS NULL THEN r.id END) AS canceled',
+        'SUM(CASE WHEN c.deletedAt IS NOT NULL THEN c.limit END) AS seats',
+        'COUNT(CASE WHEN r.deletedAt IS NOT NULL AND c.deletedAt IS NOT NULL THEN r.id END) AS reserved',
+        'COUNT(CASE WHEN r.deletedAt IS NULL AND c.deletedAt IS NOT NULL THEN r.id END) AS canceled',
       ])
       .getRawMany();
     return result[0];
