@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Concert } from 'src/entities/concert.entity';
 import { DataSource, Repository } from 'typeorm';
-import { CreateConcertDto } from './concert.dto';
+import { CreateConcertDto, StatDto } from './concert.dto';
 
 @Injectable()
 export class ConcertRepository extends Repository<Concert> {
@@ -29,6 +29,19 @@ export class ConcertRepository extends Repository<Concert> {
       .addSelect('Count(r.id)', 'reserved')
       .getRawMany();
     return result;
+  }
+
+  async getStat(): Promise<StatDto> {
+    const result = await this.createQueryBuilder('c')
+      .withDeleted()
+      .leftJoin('c.reservations', 'r')
+      .select([
+        'SUM(c.limit) AS seats',
+        'COUNT(CASE WHEN r.deletedAt IS NOT NULL THEN r.id END) AS reserved',
+        'COUNT(CASE WHEN r.deletedAt IS NULL THEN r.id END) AS canceled',
+      ])
+      .getRawMany();
+    return result[0];
   }
 
   async findById(id: string): Promise<Concert> {

@@ -6,7 +6,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { Concert } from 'src/entities/concert.entity';
-import { CreateConcertDto } from './concert.dto';
+import { CreateConcertDto, StatDto } from './concert.dto';
 import { ConcertRepository } from './concert.repository';
 
 @Injectable()
@@ -50,7 +50,19 @@ export class ConcertService {
       return concert;
     } catch (error) {
       this.logger.log(
-        `BottleService:deleteBottle: ${JSON.stringify(error.message)}`,
+        `ConcertService:deleteConcert: ${JSON.stringify(error.message)}`,
+      );
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async getConcertStat(): Promise<StatDto> {
+    try {
+      const stat = await this.concertRepository.getStat();
+      return stat;
+    } catch (error) {
+      this.logger.log(
+        `ConcertService:getConcertStat: ${JSON.stringify(error.message)}`,
       );
       throw new BadRequestException(error.message);
     }

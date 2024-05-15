@@ -5,3 +5,10 @@ export class CreateConcertDto {
 
   limit: number;
 }
+export class StatDto {
+  seats: number;
+
+  reserved: number;
+
+  canceled: number;
+}
