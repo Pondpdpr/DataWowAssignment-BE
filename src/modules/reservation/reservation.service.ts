@@ -99,9 +99,8 @@ export class ReservationService {
 
   async getUserReservationLog(userId: string): Promise<ReservationLog[]> {
     try {
-      const reservationLogs = await this.reservationLogRepository.find({
-        where: { userId },
-      });
+      const reservationLogs =
+        await this.reservationLogRepository.findUserAll(userId);
 
       return reservationLogs;
     } catch (error) {

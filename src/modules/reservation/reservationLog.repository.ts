@@ -39,6 +39,24 @@ export class ReservationLogRepository extends Repository<ReservationLog> {
     return result;
   }
 
+  async findUserAll(userId: string): Promise<ReservationLog[]> {
+    const result = this.createQueryBuilder('rl')
+      .withDeleted()
+      .leftJoin('rl.reservation', 'r')
+      .leftJoin('r.user', 'u')
+      .leftJoin('r.concert', 'c')
+      .select([
+        'rl.id as id',
+        'rl.action as action',
+        'rl.created_at as created_at',
+        'u.name as userName',
+        'c.name as concertName',
+      ])
+      .where('rl.userId = :user', { user: userId })
+      .getRawMany();
+    return result;
+  }
+
   async findById(id: number): Promise<ReservationLog> {
     return this.findOneBy({ id });
   }
