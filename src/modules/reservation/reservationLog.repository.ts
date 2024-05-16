@@ -39,7 +39,7 @@ export class ReservationLogRepository extends Repository<ReservationLog> {
     return result;
   }
 
-  async findById(id: string): Promise<ReservationLog> {
+  async findById(id: number): Promise<ReservationLog> {
     return this.findOneBy({ id });
   }
 

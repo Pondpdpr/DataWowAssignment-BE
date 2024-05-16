@@ -25,7 +25,6 @@ export class ReservationController {
     @Param() params: any,
     @Req() request: Request,
   ): Promise<Reservation> {
-    console.log('test');
     return this.ReservationService.cancelReservation({
       user: (request.user as any).id,
       reservation: params.reservationId,
@@ -33,7 +32,16 @@ export class ReservationController {
   }
 
   @Get('/log')
-  async getReservationLog(): Promise<ReservationLog[]> {
+  async getReservationLog(@Req() request: Request): Promise<ReservationLog[]> {
+    return this.ReservationService.getUserReservationLog(
+      (request.user as any).id,
+    );
+  }
+
+  @Get('/log/admin')
+  async getAdminReservationLog(
+    @Req() request: Request,
+  ): Promise<ReservationLog[]> {
     return this.ReservationService.getAllReservationLog();
   }
 

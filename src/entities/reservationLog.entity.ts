@@ -17,17 +17,17 @@ export enum Action {
 @Entity('reservation_log')
 export class ReservationLog {
   @PrimaryGeneratedColumn()
-  id: string;
+  id: number;
 
-  @Column({ type: 'int', name: 'user_id' })
-  userId: number;
+  @Column({ type: 'varchar', name: 'user_id' })
+  userId: string;
 
   @ManyToOne(() => User, (user) => user.reservations)
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @Column({ type: 'int', name: 'reservation_id' })
-  reservationId: number;
+  @Column({ type: 'varchar', name: 'reservation_id' })
+  reservationId: string;
 
   @ManyToOne(() => Reservation, (reservation) => reservation.reservationLogs)
   @JoinColumn({ name: 'reservation_id' })

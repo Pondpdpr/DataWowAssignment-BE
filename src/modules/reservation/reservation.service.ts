@@ -97,6 +97,21 @@ export class ReservationService {
     }
   }
 
+  async getUserReservationLog(userId: string): Promise<ReservationLog[]> {
+    try {
+      const reservationLogs = await this.reservationLogRepository.find({
+        where: { userId },
+      });
+
+      return reservationLogs;
+    } catch (error) {
+      this.logger.log(
+        `ReservationService:getAllReservationLog: ${JSON.stringify(error.message)}`,
+      );
+      throw new BadRequestException(error.message);
+    }
+  }
+
   async getAllReservedByUser(userId: string): Promise<Reservation[]> {
     try {
       const reservations =
