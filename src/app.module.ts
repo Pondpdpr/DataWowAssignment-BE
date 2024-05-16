@@ -7,6 +7,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
 import { JwtGuard } from './modules/auth/jwt.guard';
+import { RolesGuard } from './modules/auth/role.guard';
 import { ConcertModule } from './modules/concert/concert.module';
 import { ReservationModule } from './modules/reservation/reservation.module';
 import { UserModule } from './modules/user/user.module';
@@ -41,6 +42,10 @@ const ENV = process.env.NODE_ENV;
     {
       provide: APP_GUARD,
       useClass: JwtGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
     },
   ],
 })
