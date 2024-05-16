@@ -8,6 +8,8 @@ import {
   Post,
 } from '@nestjs/common';
 import { Concert } from 'src/entities/concert.entity';
+import { UserRole } from 'src/entities/user.entity';
+import { Roles } from '../auth/role.decorator';
 import { CreateConcertDto, StatDto } from './concert.dto';
 import { ConcertService } from './concert.service';
 
@@ -22,11 +24,13 @@ export class ConcertController {
   }
 
   @Get('/stat')
+  @Roles(UserRole.ADMIN)
   async getConcertStat(): Promise<StatDto> {
     return this.concertService.getConcertStat();
   }
 
   @Post()
+  @Roles(UserRole.ADMIN)
   async createConcert(
     @Body() createConcertDto: CreateConcertDto,
   ): Promise<Concert> {
@@ -34,6 +38,7 @@ export class ConcertController {
   }
 
   @Delete('/:id')
+  @Roles(UserRole.ADMIN)
   async deleteConcert(@Param() param: any): Promise<Concert> {
     return this.concertService.deleteConcert(param.id);
   }

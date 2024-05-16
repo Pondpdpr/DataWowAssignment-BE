@@ -2,6 +2,8 @@ import { Controller, Get, Logger, Param, Post, Req } from '@nestjs/common';
 import { Request } from 'express';
 import { Reservation } from 'src/entities/reservation.entity';
 import { ReservationLog } from 'src/entities/reservationLog.entity';
+import { UserRole } from 'src/entities/user.entity';
+import { Roles } from '../auth/role.decorator';
 import { ReservationService } from './reservation.service';
 
 @Controller('reservation')
@@ -39,6 +41,7 @@ export class ReservationController {
   }
 
   @Get('/log/admin')
+  @Roles(UserRole.ADMIN)
   async getAdminReservationLog(
     @Req() request: Request,
   ): Promise<ReservationLog[]> {
