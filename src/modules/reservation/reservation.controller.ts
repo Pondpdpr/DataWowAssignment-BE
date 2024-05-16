@@ -42,9 +42,7 @@ export class ReservationController {
 
   @Get('/log/admin')
   @Roles(UserRole.ADMIN)
-  async getAdminReservationLog(
-    @Req() request: Request,
-  ): Promise<ReservationLog[]> {
+  async getAdminReservationLog(): Promise<ReservationLog[]> {
     return this.ReservationService.getAllReservationLog();
   }
 
