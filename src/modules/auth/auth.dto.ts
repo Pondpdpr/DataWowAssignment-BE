@@ -1,3 +1,5 @@
+import { UserRole } from 'src/entities/user.entity';
+
 export class LoginDto {
   email: string;
 
@@ -5,6 +7,12 @@ export class LoginDto {
 }
 
 export type AccessToken = {
+  user: {
+    email: string;
+
+    role: UserRole;
+  };
+
   access_token: string;
 };
 export type AccessTokenPayload = {

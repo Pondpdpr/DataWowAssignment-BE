@@ -26,7 +26,7 @@ export class AuthService {
     if (user && (await argon2.verify(user.password, password))) {
       return user;
     }
-    throw new HttpException('Invalid credentials', HttpStatus.BAD_REQUEST);
+    throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
   }
 
   async signup(createUserDto: CreateUserDto): Promise<any> {
@@ -43,7 +43,13 @@ export class AuthService {
       loginDto.email,
     );
     const payload = { email: user.email, id: user.id };
-    return { access_token: this.jwtService.sign(payload) };
+    return {
+      user: {
+        email: user.email,
+        role: user.role,
+      },
+      access_token: this.jwtService.sign(payload),
+    };
   }
 
   logOut(@Req() request: Request): any {
