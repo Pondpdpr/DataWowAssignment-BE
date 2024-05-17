@@ -29,7 +29,7 @@ export class ReservationService {
           createReservationDto.user,
         );
 
-      if (existingReservation) {
+      if (existingReservation.length > 0) {
         throw new HttpException(
           'Reservation already exists',
           HttpStatus.BAD_REQUEST,
