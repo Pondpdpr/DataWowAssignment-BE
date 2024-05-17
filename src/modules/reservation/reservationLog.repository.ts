@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { ReservationLog } from 'src/entities/reservationLog.entity';
 import { DataSource, Repository } from 'typeorm';
+import { ReservationLog } from '../../entities/reservationLog.entity';
 import { CreateReservationLogDto } from './reservation.dto';
 
 @Injectable()
@@ -55,13 +55,5 @@ export class ReservationLogRepository extends Repository<ReservationLog> {
       .where('rl.userId = :user', { user: userId })
       .getRawMany();
     return result;
-  }
-
-  async findById(id: number): Promise<ReservationLog> {
-    return this.findOneBy({ id });
-  }
-
-  async deleteById(id: string): Promise<void> {
-    await this.delete(id);
   }
 }

@@ -3,7 +3,6 @@ import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import 'dotenv/config';
 import { join } from 'path';
-import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
 import { JwtGuard } from './modules/auth/jwt.guard';
@@ -36,7 +35,6 @@ const ENV = process.env.NODE_ENV;
     UserModule,
     ReservationModule,
   ],
-  controllers: [AppController],
   providers: [
     AppService,
     {

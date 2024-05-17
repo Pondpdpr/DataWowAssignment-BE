@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { Reservation } from 'src/entities/reservation.entity';
 import { DataSource, Repository } from 'typeorm';
+import { Reservation } from '../../entities/reservation.entity';
 import { CreateReservationDto } from './reservation.dto';
 
 @Injectable()
@@ -24,10 +24,6 @@ export class ReservationRepository extends Repository<Reservation> {
 
   async findReservedByUserId(userId: string): Promise<Reservation[]> {
     return this.find({ where: { userId } });
-  }
-
-  async findAll(): Promise<Reservation[]> {
-    return this.find();
   }
 
   async findById(id: string): Promise<Reservation> {

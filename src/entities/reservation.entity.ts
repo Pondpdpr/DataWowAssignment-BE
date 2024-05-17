@@ -21,20 +21,20 @@ export class Reservation {
 
   @ManyToOne(() => User, (user) => user.reservations)
   @JoinColumn({ name: 'user_id' })
-  user: User;
+  user?: User;
 
   @Column({ type: 'varchar', name: 'concert_id' })
   concertId: string;
 
   @ManyToOne(() => Concert, (concert) => concert.reservations)
   @JoinColumn({ name: 'concert_id' })
-  concert: Concert;
+  concert?: Concert;
 
   @OneToMany(
     () => ReservationLog,
     (reservationLog) => reservationLog.reservation,
   )
-  reservationLogs: ReservationLog[];
+  reservationLogs?: ReservationLog[];
 
   @DeleteDateColumn({ nullable: true })
   deletedAt?: Date;

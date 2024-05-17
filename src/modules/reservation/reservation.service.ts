@@ -5,8 +5,8 @@ import {
   Injectable,
   Logger,
 } from '@nestjs/common';
-import { Reservation } from 'src/entities/reservation.entity';
-import { Action, ReservationLog } from 'src/entities/reservationLog.entity';
+import { Reservation } from '../../entities/reservation.entity';
+import { Action, ReservationLog } from '../../entities/reservationLog.entity';
 import { CancelReservationDto, CreateReservationDto } from './reservation.dto';
 import { ReservationRepository } from './reservation.repostory';
 import { ReservationLogRepository } from './reservationLog.repository';

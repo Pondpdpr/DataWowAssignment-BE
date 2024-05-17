@@ -24,14 +24,14 @@ export class ReservationLog {
 
   @ManyToOne(() => User, (user) => user.reservations)
   @JoinColumn({ name: 'user_id' })
-  user: User;
+  user?: User;
 
   @Column({ type: 'varchar', name: 'reservation_id' })
   reservationId: string;
 
   @ManyToOne(() => Reservation, (reservation) => reservation.reservationLogs)
   @JoinColumn({ name: 'reservation_id' })
-  reservation: Reservation;
+  reservation?: Reservation;
 
   @Column({
     type: 'enum',
