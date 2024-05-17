@@ -25,7 +25,7 @@ export class Concert {
     cascade: true,
     onDelete: 'CASCADE',
   })
-  reservations: Reservation[];
+  reservations?: Reservation[];
 
   @DeleteDateColumn({ nullable: true })
   deletedAt?: Date;

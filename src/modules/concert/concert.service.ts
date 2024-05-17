@@ -5,7 +5,7 @@ import {
   Injectable,
   Logger,
 } from '@nestjs/common';
-import { Concert } from 'src/entities/concert.entity';
+import { Concert } from '../../entities/concert.entity';
 import { CreateConcertDto, StatDto } from './concert.dto';
 import { ConcertRepository } from './concert.repository';
 
@@ -24,6 +24,7 @@ export class ConcertService {
       this.logger.log(
         `ConcertService:createConcert: ${JSON.stringify(error.message)}`,
       );
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -37,6 +38,7 @@ export class ConcertService {
       this.logger.log(
         `ConcertService:createConcert: ${JSON.stringify(error.message)}`,
       );
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -64,7 +66,7 @@ export class ConcertService {
       this.logger.log(
         `ConcertService:getConcertStat: ${JSON.stringify(error.message)}`,
       );
-      throw new BadRequestException(error.message);
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }

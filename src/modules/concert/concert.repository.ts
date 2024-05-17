@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { Concert } from 'src/entities/concert.entity';
 import { DataSource, Repository } from 'typeorm';
+import { Concert } from '../../entities/concert.entity';
 import { CreateConcertDto, StatDto } from './concert.dto';
 
 @Injectable()
