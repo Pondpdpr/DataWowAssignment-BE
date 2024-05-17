@@ -1,4 +1,4 @@
-import { Controller, Get, Logger, Param, Post, Req } from '@nestjs/common';
+import { Controller, Get, Logger, Param, Post, Put, Req } from '@nestjs/common';
 import { Request } from 'express';
 import { Reservation } from 'src/entities/reservation.entity';
 import { ReservationLog } from 'src/entities/reservationLog.entity';
@@ -22,7 +22,7 @@ export class ReservationController {
     });
   }
 
-  @Post('/cancel/:reservationId')
+  @Put('/cancel/:reservationId')
   async cancelReservation(
     @Param() params: any,
     @Req() request: Request,
