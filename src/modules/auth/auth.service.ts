@@ -22,11 +22,14 @@ export class AuthService {
   ) {}
 
   async validateUser(email: string, password: string): Promise<User> {
-    const user: User = await this.userService.findOneForSignIn(email);
-    if (user && (await argon2.verify(user.password, password))) {
-      return user;
+    try {
+      const user: User = await this.userService.findByEmailForAuth(email);
+      if (user && (await argon2.verify(user.password, password))) {
+        return user;
+      }
+    } catch {
+      throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
     }
-    throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
   }
 
   async signup(createUserDto: CreateUserDto): Promise<any> {
@@ -39,17 +42,24 @@ export class AuthService {
   }
 
   async login(loginDto: LoginDto): Promise<AccessToken> {
-    const user: User = await this.userService.findByEmailForAuth(
-      loginDto.email,
-    );
-    const payload = { email: user.email, id: user.id, role: user.role };
-    return {
-      user: {
-        email: user.email,
-        role: user.role,
-      },
-      access_token: this.jwtService.sign(payload),
-    };
+    try {
+      const user: User = await this.userService.findByEmailForAuth(
+        loginDto.email,
+      );
+      if (!user) {
+        throw new Error('no User found.');
+      }
+      const payload = { email: user.email, id: user.id, role: user.role };
+      return {
+        user: {
+          email: user.email,
+          role: user.role,
+        },
+        access_token: this.jwtService.sign(payload),
+      };
+    } catch {
+      throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
+    }
   }
 
   logOut(@Req() request: Request): any {

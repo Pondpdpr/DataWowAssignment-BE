@@ -14,7 +14,7 @@ export class User {
   name: string;
 
   @Column({ type: 'varchar' })
-  password: string;
+  password?: string;
 
   @Column({ type: 'varchar', unique: true })
   email: string;
@@ -23,7 +23,7 @@ export class User {
     cascade: true,
     onDelete: 'CASCADE',
   })
-  reservations: Reservation[];
+  reservations?: Reservation[];
 
   @Column({
     type: 'enum',
