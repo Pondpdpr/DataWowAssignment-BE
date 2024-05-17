@@ -58,17 +58,18 @@ describe('ReservationService', () => {
         userId: 'userId',
         concertId: 'concertId',
       };
-      jest.spyOn(reserveRepository, 'findOneBy').mockResolvedValueOnce(null);
+      jest
+        .spyOn(reserveRepository, 'findReservedByUserId')
+        .mockResolvedValueOnce(null);
       jest
         .spyOn(reserveRepository, 'createReservation')
         .mockResolvedValueOnce(expectedReservation);
 
       const reservation = await service.createReservation(reservationInfo);
 
-      expect(reserveRepository.findOneBy).toHaveBeenCalledWith({
-        userId: reservationInfo.user,
-        concertId: reservationInfo.concert,
-      });
+      expect(reserveRepository.findReservedByUserId).toHaveBeenCalledWith(
+        reservationInfo.user,
+      );
       expect(reserveRepository.createReservation).toHaveBeenCalledWith(
         reservationInfo,
       );
@@ -85,23 +86,24 @@ describe('ReservationService', () => {
         user: 'userId',
         concert: 'concertId',
       };
-      const existingReservation = {
-        id: 'id',
-        userId: 'userId',
-        concertId: 'concertId',
-      };
+      const existingReservation = [
+        {
+          id: 'id',
+          userId: 'userId',
+          concertId: 'concertId',
+        },
+      ];
       const errorMessage = 'Reservation already exists';
       jest
-        .spyOn(reserveRepository, 'findOneBy')
+        .spyOn(reserveRepository, 'findReservedByUserId')
         .mockResolvedValueOnce(existingReservation);
 
       await expect(
         async () => await service.createReservation(reservationInfo),
       ).rejects.toThrow(errorMessage);
-      expect(reserveRepository.findOneBy).toHaveBeenCalledWith({
-        userId: reservationInfo.user,
-        concertId: reservationInfo.concert,
-      });
+      expect(reserveRepository.findReservedByUserId).toHaveBeenCalledWith(
+        reservationInfo.user,
+      );
     });
   });
 

@@ -24,10 +24,10 @@ export class ReservationService {
     createReservationDto: CreateReservationDto,
   ): Promise<Reservation> {
     try {
-      const existingReservation = await this.reservationRepository.findOneBy({
-        userId: createReservationDto.user,
-        concertId: createReservationDto.concert,
-      });
+      const existingReservation =
+        await this.reservationRepository.findReservedByUserId(
+          createReservationDto.user,
+        );
 
       if (existingReservation) {
         throw new HttpException(
