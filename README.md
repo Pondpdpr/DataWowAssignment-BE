@@ -1,4 +1,4 @@
-# DataWowAssignment-FE
+# DataWowAssignment-BE
 
 This is a [NestJS](https://docs.nestjs.com/) project that was created for Prach Boonud's Data Wow assignment. This project uses docker to run both the NestJS project and the Postgres database.
 
